@@ -1,0 +1,5 @@
+gap-3
+
+px-6 py-4  => for card
+
+rounded-xl 
