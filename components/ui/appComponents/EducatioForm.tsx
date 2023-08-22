@@ -2,8 +2,14 @@
 import React, { useState } from "react";
 import linkLogo from "@/assets/link.svg";
 import downArrow from "@/assets/downarrow.svg";
-import upArrow from "@/assets/uparrow.svg";
 import Image from "next/image";
+import cross from "@/assets/crossSmall.svg";
+import { monthNames, yearRange, years } from "@/lib/utils";
+import Month from "@/components/Month";
+import MonthSelectBox from "@/components/MonthSelectBox";
+import Year from "@/components/Year";
+import YearSelectBox from "@/components/YearSelectBox";
+import Month1 from "@/components/Month1";
 
 const EducatioForm = () => {
     const [open, setOpen] = useState(false);
@@ -19,30 +25,12 @@ const EducatioForm = () => {
     const [openYear1, setOpenYear1] = useState(false);
     const [clickMonth1, setClickMonth1] = useState(false);
     const [clickYear1, setClickYear1] = useState(false);
-    const startYear = 1944;
-    const currentYear = new Date().getFullYear();
-    const yearRange = Array.from(
-        { length: currentYear - startYear + 1 },
-        (_, index) => startYear + index
-    );
-    const years = Array.from(
-        { length: 2027 - 1944 + 1 },
-        (_, index) => 2027 - index
-    );
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
+    const [notShow, setNotShow] = useState(false);
+    const [onlyYear, setOnlyYear] = useState(false);
+    const [notShow1, setNotShow1] = useState(false);
+    const [onlyYear1, setOnlyYear1] = useState(false);
+    const [present, setPresent] = useState(false);
+
     const openMonthHandler = () => {
         setOpenMonth((prev) => !prev);
         setClickMonth((prev) => !prev);
@@ -196,128 +184,69 @@ const EducatioForm = () => {
                                 optional
                             </span>
                         </label>
-                        <div
-                            className={
-                                clickMonth
-                                    ? "border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-3"
-                                    : "border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-3"
-                            }
-                        >
+                        {selectMonth === "" ? (
+                            <Month
+                                clickMonth={clickMonth}
+                                notShow={notShow}
+                                onlyYear={onlyYear}
+                                openMonthHandler={openMonthHandler}
+                                selectMonth={selectMonth}
+                            />
+                        ) : (
                             <div
-                                className="flex justify-between items-start"
-                                onClick={openMonthHandler}
+                                className={`border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-3 ${
+                                    notShow ? "hidden" : ""
+                                } ${onlyYear ? "hidden" : ""}`}
                             >
-                                <span>
-                                    {selectMonth === ""
-                                        ? "Month"
-                                        : selectMonth}
-                                </span>
-
-                                <Image
-                                    src={downArrow}
-                                    alt="downArrow"
-                                    width={20}
-                                    height={20}
-                                />
-                            </div>
-                        </div>
-                        <div
-                            className={
-                                clickYear
-                                    ? "border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-2"
-                                    : "border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-2"
-                            }
-                        >
-                            <div
-                                className="flex justify-between items-center"
-                                onClick={openYearHandler}
-                            >
-                                <span>
-                                    {selectYear === 0
-                                        ? "Year"
-                                        : selectYear}
-                                </span>
-                                <Image
-                                    src={downArrow}
-                                    alt="downArrow"
-                                    width={20}
-                                    height={20}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        className={
-                            openMonth || openMonth1
-                                ? "mt-2  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
-                                : "hidden"
-                        }
-                    >
-                        <div className="grid grid-cols-4 gap-4 px-4 py-3">
-                            {monthNames.map((month, index) => (
-                                <div
-                                    className="col-span-1 border bg-gray-300 font-bold border-black rounded-lg px-3 py-2 cursor-pointer"
-                                    key={index}
-                                    onClick={() => {
-                                        selectMonthHandler(month);
-                                        setOpenMonth(false);
-                                        setOpenMonth1(false);
-                                        setClickMonth1(false);
-                                        setClickMonth(false);
-                                    }}
-                                >
-                                    {month}
+                                <div className="flex items-center justify-between">
+                                    <div
+                                        onClick={openMonthHandler}
+                                        className="w-full"
+                                    >
+                                        {selectMonth}
+                                    </div>
+                                    <Image
+                                        src={cross}
+                                        alt="cross"
+                                        width={25}
+                                        height={25}
+                                        onClick={() =>
+                                            setSelectMonth("")
+                                        }
+                                    />
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        )}
+
+                        <Year
+                            clickYear={clickYear}
+                            notShow={notShow}
+                            openYearHandler={openYearHandler}
+                            selectYear={selectYear}
+                        />
                     </div>
-                    <div
-                        className={
-                            openYear || openYear1
-                                ? "mt-2 h-[200px] overflow-y-auto  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
-                                : "hidden"
-                        }
-                    >
-                        <div className="grid grid-cols-6 gap-4 px-3 py-3">
-                            {openYear1 ? (
-                                <>
-                                    {years.map((year, index) => (
-                                        <div
-                                            className="col-span-1 border bg-gray-300 font-bold border-black rounded-lg px-3 py-2 cursor-pointer"
-                                            key={index}
-                                            onClick={() => {
-                                                selectYearHandler(
-                                                    year
-                                                );
-                                                setOpenYear1(false);
-                                                setClickYear1(false);
-                                            }}
-                                        >
-                                            {year}
-                                        </div>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                    {yearRange.map((year, index) => (
-                                        <div
-                                            className="col-span-1 border bg-gray-300 font-bold border-black rounded-lg px-3 py-2 cursor-pointer"
-                                            key={index}
-                                            onClick={() => {
-                                                selectYearHandler(
-                                                    year
-                                                );
-                                                setOpenYear(false);
-                                                setClickYear(false);
-                                            }}
-                                        >
-                                            {year}
-                                        </div>
-                                    ))}
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    <MonthSelectBox
+                        openMonth={openMonth}
+                        openMonth1={openMonth1}
+                        selectMonthHandler={selectMonthHandler}
+                        setOpenMonth={setOpenMonth}
+                        setOpenYear={setOpenYear}
+                        setClickYear={setClickYear}
+                        setOpenYear1={setOpenYear1}
+                        setClickYear1={setClickYear1}
+                        setOpenMonth1={setOpenMonth1}
+                        setClickMonth={setClickMonth}
+                        setClickMonth1={setClickMonth1}
+                    />
+                    <YearSelectBox
+                        openYear={openYear}
+                        openYear1={openYear1}
+                        selectYearHandler={selectYearHandler}
+                        setOpenYear={setOpenYear}
+                        setOpenYear1={setOpenYear1}
+                        setClickYear={setClickYear}
+                        setClickYear1={setClickYear1}
+                    />
                 </div>
                 <div className="col-span-2">
                     <div className="grid grid-cols-5 gap-2">
@@ -327,54 +256,129 @@ const EducatioForm = () => {
                                 optional
                             </span>
                         </label>
-                        <div
-                            className={
-                                clickMonth1
-                                    ? "border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-3"
-                                    : "border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-3"
+                        <Month1
+                            clickMonth={clickMonth1}
+                            notShow={notShow1}
+                            onlyYear={onlyYear1}
+                            openMonthHandler={openMonth1Handler}
+                            selectMonth={selectMonth1}
+                        />
+                        <Year
+                            clickYear={clickYear1}
+                            notShow={notShow1}
+                            openYearHandler={openYear1Handler}
+                            selectYear={selectYear1}
+                        />
+                    </div>
+                </div>
+                <div className="col-span-2">
+                    <div className="flex gap-2 mb-2">
+                        <input
+                            type="checkbox"
+                            id="notShow"
+                            name="notShow"
+                            className="cursor-pointer"
+                            checked={notShow}
+                            onChange={(e) =>
+                                setNotShow(e.target.checked)
                             }
+                        />
+                        <label
+                            htmlFor="notShow"
+                            style={{ whiteSpace: "nowrap" }}
                         >
-                            <div
-                                className="flex justify-between items-start"
-                                onClick={openMonth1Handler}
-                            >
-                                <span>
-                                    {selectMonth1 === ""
-                                        ? "Month"
-                                        : selectMonth1}
-                                </span>
-                                <Image
-                                    src={downArrow}
-                                    alt="downArrow"
-                                    width={20}
-                                    height={20}
-                                />
-                            </div>
-                        </div>
-                        <div
-                            className={
-                                clickYear1
-                                    ? "border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-2"
-                                    : "border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-2"
+                            {"Dont't Show"}
+                        </label>
+                    </div>
+                    <div
+                        className={
+                            !notShow
+                                ? "flex gap-2 col-span-2"
+                                : "hidden"
+                        }
+                    >
+                        <input
+                            type="checkbox"
+                            id="onlyYear"
+                            name="onlyYear"
+                            className="cursor-pointer"
+                            checked={onlyYear}
+                            onChange={(e) =>
+                                setOnlyYear(e.target.checked)
                             }
+                        />
+                        <label
+                            htmlFor="onlyYear"
+                            style={{ whiteSpace: "nowrap" }}
                         >
-                            <div
-                                className="flex justify-between items-center"
-                                onClick={openYear1Handler}
-                            >
-                                <span>
-                                    {selectYear1 === 0
-                                        ? "Year"
-                                        : selectYear1}
-                                </span>
-                                <Image
-                                    src={downArrow}
-                                    alt="downArrow"
-                                    width={20}
-                                    height={20}
-                                />
-                            </div>
-                        </div>
+                            {"Only Year"}
+                        </label>
+                    </div>
+                </div>
+                <div className="col-span-2">
+                    <div
+                        className={
+                            notShow1 ? "hidden" : "flex gap-2 mb-2"
+                        }
+                    >
+                        <input
+                            type="checkbox"
+                            id="present"
+                            name="present"
+                            className="cursor-pointer"
+                            checked={present}
+                            onChange={(e) =>
+                                setPresent(e.target.checked)
+                            }
+                        />
+                        <label
+                            htmlFor="present"
+                            style={{ whiteSpace: "nowrap" }}
+                        >
+                            {"Present(Current)"}
+                        </label>
+                    </div>
+                    <div className="flex gap-2 mb-2">
+                        <input
+                            type="checkbox"
+                            id="notShow"
+                            name="notShow"
+                            className="cursor-pointer"
+                            checked={notShow1}
+                            onChange={(e) =>
+                                setNotShow1(e.target.checked)
+                            }
+                        />
+                        <label
+                            htmlFor="notShow"
+                            style={{ whiteSpace: "nowrap" }}
+                        >
+                            {"Dont't Show"}
+                        </label>
+                    </div>
+                    <div
+                        className={
+                            !notShow1
+                                ? "flex gap-2 col-span-2"
+                                : "hidden"
+                        }
+                    >
+                        <input
+                            type="checkbox"
+                            id="onlyYear"
+                            name="onlyYear"
+                            className="cursor-pointer"
+                            checked={onlyYear1}
+                            onChange={(e) =>
+                                setOnlyYear1(e.target.checked)
+                            }
+                        />
+                        <label
+                            htmlFor="onlyYear"
+                            style={{ whiteSpace: "nowrap" }}
+                        >
+                            {"Only Year"}
+                        </label>
                     </div>
                 </div>
             </div>
