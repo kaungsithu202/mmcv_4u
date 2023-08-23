@@ -1,6 +1,6 @@
 import { SelectYearProps } from "@/interface";
 import { yearRange, years } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const YearSelectBox = ({
     openYear,
@@ -11,8 +11,30 @@ const YearSelectBox = ({
     setOpenYear,
     setClickYear,
 }: SelectYearProps) => {
+    const divRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                divRef.current &&
+                !divRef.current.contains(event.target as Node)
+            ) {
+                setOpenYear(false);
+                setOpenYear1(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener(
+                "mousedown",
+                handleClickOutside
+            );
+        };
+    }, []);
     return (
         <div
+            ref={divRef}
             className={
                 openYear || openYear1
                     ? "mt-2 h-[200px] overflow-y-auto  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
