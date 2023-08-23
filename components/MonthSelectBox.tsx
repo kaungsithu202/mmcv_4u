@@ -1,6 +1,6 @@
 import { SelectMonthProps } from "@/interface";
 import { monthNames } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const MonthSelectBox = ({
     openMonth,
@@ -15,8 +15,30 @@ const MonthSelectBox = ({
     setClickMonth,
     setClickMonth1,
 }: SelectMonthProps) => {
+    const divRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                divRef.current &&
+                !divRef.current.contains(event.target as Node)
+            ) {
+                setOpenMonth(false);
+                setOpenMonth1(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener(
+                "mousedown",
+                handleClickOutside
+            );
+        };
+    }, []);
     return (
         <div
+            ref={divRef}
             className={
                 openMonth || openMonth1
                     ? "mt-2  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
