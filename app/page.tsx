@@ -5,8 +5,10 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import EducatioForm from "@/components/ui/appComponents/EducatioForm";
+import Experience from "@/components/ui/appComponents/Experience";
 import PersonalDetails from "@/components/ui/appComponents/PersonalDetails";
 import PersonalDetailsInfo from "@/components/ui/appComponents/PersonalDetailsInfo";
+import Skill from "@/components/ui/appComponents/Skill";
 
 export default function Home() {
     return (
@@ -29,7 +31,7 @@ export default function Home() {
                                 className="bg-white rounded-xl  px-6 py-4"
                             >
                                 <AccordionTrigger>
-                                    Education
+                                    Create Education
                                 </AccordionTrigger>
                                 <AccordionContent>
                                     <EducatioForm />
@@ -44,11 +46,10 @@ export default function Home() {
                                 className="bg-white rounded-xl  px-6 py-4"
                             >
                                 <AccordionTrigger>
-                                    Education
+                                    Create Professional Experience
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Yes. It adheres to the WAI-ARIA
-                                    design pattern.
+                                    <Experience />
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -60,11 +61,26 @@ export default function Home() {
                                 className="bg-white rounded-xl  px-6 py-4"
                             >
                                 <AccordionTrigger>
-                                    Education
+                                    Create Skill
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    Yes. It adheres to the WAI-ARIA
-                                    design pattern.
+                                    <Skill />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <Accordion type="single" collapsible>
+                            <AccordionItem
+                                value="item-1"
+                                className="bg-white rounded-xl  px-6 py-4"
+                            >
+                                <AccordionTrigger>
+                                    Comming soon
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    adjflkjalkdjf kadlfjlkadjf
+                                    akjflkjaldjfla kljaldjf
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>

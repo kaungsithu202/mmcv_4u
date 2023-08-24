@@ -1,15 +1,15 @@
 "use client";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import linkLogo from "@/assets/link.svg";
-import Image from "next/image";
-import cross from "@/assets/crossSmall.svg";
 import Month from "@/components/Month";
-import MonthSelectBox from "@/components/MonthSelectBox";
+import cross from "@/assets/crossSmall.svg";
 import Year from "@/components/Year";
+import MonthSelectBox from "@/components/MonthSelectBox";
 import YearSelectBox from "@/components/YearSelectBox";
 import Month1 from "@/components/Month1";
 
-const EducatioForm = () => {
+const Experience = () => {
     const [open, setOpen] = useState(false);
     const [openMonth, setOpenMonth] = useState(false);
     const [selectMonth, setSelectMonth] = useState("");
@@ -50,7 +50,6 @@ const EducatioForm = () => {
             );
         };
     }, []);
-
     const openMonthHandler = () => {
         setOpenMonth((prev) => !prev);
         setClickMonth((prev) => !prev);
@@ -102,20 +101,7 @@ const EducatioForm = () => {
             <div className="grid grid-cols-4 grid-rows-4 gap-2">
                 <div className="col-span-4">
                     <label className="text-black text-sm ">
-                        Degree{" "}
-                        <span className="text-xs text-gray-500 pl-3">
-                            optional
-                        </span>
-                    </label>
-                    <input
-                        type="text"
-                        className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
-                        placeholder="Enter Degree/ Field of Study / Exchange Semester"
-                    />
-                </div>
-                <div className="col-span-4">
-                    <label className="text-black text-sm ">
-                        School
+                        Employer
                         <span className="text-xs text-gray-500 pl-3">
                             optional
                         </span>
@@ -124,7 +110,7 @@ const EducatioForm = () => {
                         <input
                             type="text"
                             className="p-2.5 bg-gray-100  rounded-lg focus:outline-none w-3/4"
-                            placeholder="Enter school/university"
+                            placeholder="Enter employer"
                         />
                         <div className="w-1/4">
                             <div className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg">
@@ -174,6 +160,19 @@ const EducatioForm = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="col-span-4">
+                    <label className="text-black text-sm ">
+                        Job Title
+                        <span className="text-xs text-gray-500 pl-3">
+                            optional
+                        </span>
+                    </label>
+                    <input
+                        type="text"
+                        className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                        placeholder="Enter Job Title"
+                    />
                 </div>
                 <div className="col-span-2">
                     <label className="text-black text-sm ">
@@ -565,7 +564,7 @@ const EducatioForm = () => {
                         <textarea
                             rows={4}
                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
-                            placeholder="Add a description about your education"
+                            placeholder="Describe your role & achievements"
                         >
                             {description}
                         </textarea>
@@ -576,4 +575,4 @@ const EducatioForm = () => {
     );
 };
 
-export default EducatioForm;
+export default Experience;
