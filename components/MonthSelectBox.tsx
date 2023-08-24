@@ -15,7 +15,7 @@ const MonthSelectBox = ({
     setClickMonth,
     setClickMonth1,
 }: SelectMonthProps) => {
-    const divRef = useRef(null);
+    const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
