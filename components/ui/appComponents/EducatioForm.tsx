@@ -29,7 +29,8 @@ const EducatioForm = () => {
     const [onlyYear1, setOnlyYear1] = useState(false);
     const [present, setPresent] = useState(false);
     const [presentValue, setpresentVlue] = useState("present");
-    const divRef = useRef(null);
+    const [description, setDescription] = useState("");
+    const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -547,6 +548,23 @@ const EducatioForm = () => {
                         >
                             {"Only Year"}
                         </label>
+                    </div>
+                </div>
+                <div className="col-span-4">
+                    <div className="flex flex-col gap-3">
+                        <label className="text-black text-sm ">
+                            Description
+                            <span className="text-xs text-gray-500 pl-3">
+                                optional
+                            </span>
+                        </label>
+                        <textarea
+                            rows={4}
+                            className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                            placeholder="Add a description about your education"
+                        >
+                            {description}
+                        </textarea>
                     </div>
                 </div>
             </div>
