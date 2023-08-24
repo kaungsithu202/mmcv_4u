@@ -4,10 +4,15 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import Certificate from "@/components/ui/appComponents/Certificate";
 import EducatioForm from "@/components/ui/appComponents/EducatioForm";
 import Experience from "@/components/ui/appComponents/Experience";
+import Interest from "@/components/ui/appComponents/Interest";
+import Language from "@/components/ui/appComponents/Language";
 import PersonalDetails from "@/components/ui/appComponents/PersonalDetails";
 import PersonalDetailsInfo from "@/components/ui/appComponents/PersonalDetailsInfo";
+import Project from "@/components/ui/appComponents/Project";
+import Reference from "@/components/ui/appComponents/Reference";
 import Skill from "@/components/ui/appComponents/Skill";
 
 export default function Home() {
@@ -76,11 +81,70 @@ export default function Home() {
                                 className="bg-white rounded-xl  px-6 py-4"
                             >
                                 <AccordionTrigger>
-                                    Comming soon
+                                    Create Language
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    adjflkjalkdjf kadlfjlkadjf
-                                    akjflkjaldjfla kljaldjf
+                                    <Language />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <Accordion type="single" collapsible>
+                            <AccordionItem
+                                value="item-1"
+                                className="bg-white rounded-xl  px-6 py-4"
+                            >
+                                <AccordionTrigger>
+                                    Create Certificate
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <Certificate />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <Accordion type="single" collapsible>
+                            <AccordionItem
+                                value="item-1"
+                                className="bg-white rounded-xl  px-6 py-4"
+                            >
+                                <AccordionTrigger>
+                                    Create Interest
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <Interest />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <Accordion type="single" collapsible>
+                            <AccordionItem
+                                value="item-1"
+                                className="bg-white rounded-xl  px-6 py-4"
+                            >
+                                <AccordionTrigger>
+                                    Create Project
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <Project />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                    <div>
+                        <Accordion type="single" collapsible>
+                            <AccordionItem
+                                value="item-1"
+                                className="bg-white rounded-xl  px-6 py-4"
+                            >
+                                <AccordionTrigger>
+                                    Create Reference
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <Reference />
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
