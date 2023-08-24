@@ -30,3 +30,11 @@ export const years = Array.from(
     { length: 2027 - 1944 + 1 },
     (_, index) => 2027 - index
 );
+
+export const skillLevel = [
+    "Novice",
+    "Beginner",
+    "Skillful",
+    "Experienced",
+    "Expert",
+];
