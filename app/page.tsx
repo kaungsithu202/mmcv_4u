@@ -24,10 +24,10 @@ export default function Home() {
     <FormProvider {...methods}>
       <div className="min-h-screen container mx-auto">
         <div className="grid grid-cols-12 gap-3">
-          <p className="col-span-2">DashBoard</p>
+          <h1 className="col-span-2">DashBoard</h1>
           <div className="col-span-5 grid gap-3">
             <div className="flex items-center justify-between bg-white px-6 py-4 rounded-xl drop-shadow-md">
-              <p className="text-2xl font-bold">KST CV</p>
+              <h2 className="text-2xl font-bold">KST CV</h2>
               <button className="bg-slate-700 text-white rounded-full px-6 py-2">
                 Download
               </button>
@@ -141,9 +141,9 @@ export default function Home() {
               </Accordion>
             </div>
           </div>
-          <p className="col-span-5">
+          <div className="col-span-5">
             <CVPage />
-          </p>
+          </div>
         </div>
       </div>
     </FormProvider>

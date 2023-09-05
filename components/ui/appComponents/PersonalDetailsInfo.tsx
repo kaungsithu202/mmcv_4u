@@ -2,9 +2,10 @@
 import cameraIcon from "@/assets/cameraIcon.svg";
 import { fileToBase64 } from "@/lib/utils";
 import Image from "next/image";
+import useFormPersist from "react-hook-form-persist";
 import { ChangeEvent, useRef, useState } from "react";
-import { SubmitHandler, useFormContext, useWatch } from "react-hook-form";
-import useFormValues from "@/lib/useFormValues";
+import { SubmitHandler, useFormContext } from "react-hook-form";
+import { useProfileImage } from "@/store/personalDetailStore";
 type Inputs = {
   fullname: string;
   image: string;
@@ -18,35 +19,20 @@ const PersonalDetailsInfo = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    control,
     formState: { errors },
-    getValues,
+    watch,
+    setValue,
   } = useFormContext<Inputs>();
 
-  // console.log("asd", asd);
-  // const watchPersonalDetails = useWatch({
-  //   control,
-  //   name: ["fullname", "jobtitle", "email", "phone", "address"],
-  // });
-  // const personalValues = getValues([
-  //   "fullname",
-  //   "jobtitle",
-  //   "email",
-  //   "phone",
-  //   "address",
-  // ]);
-  // console.log("personalValues", personalValues);
-
-  // const setPersonalDetails = usePersonalDetail(
-  //   (state) => state.setPersonalDetails
-  // );
-
-  // console.log("watchPersonalDetails", watchPersonalDetails);
+  useFormPersist("PersonalDetails", {
+    watch,
+    setValue,
+    storage: window.localStorage, // default window.sessionStorage
+  });
+  const { setProfileImage } = useProfileImage();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   const imageRef = useRef<HTMLInputElement>(null);
-  const [profileImage, setProfileImage] = useState("");
 
   const handleClickRef = () => {
     imageRef?.current?.click();
@@ -55,7 +41,6 @@ const PersonalDetailsInfo = () => {
   const handleFileInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const selectedFile = e.target.files[0];
-      const reader = new FileReader();
       const base64 = await fileToBase64(selectedFile);
       setProfileImage(base64);
     }
