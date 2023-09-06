@@ -37,7 +37,7 @@ const YearSelectBox = ({
             ref={divRef}
             className={
                 openYear || openYear1
-                    ? "mt-2 h-[200px] overflow-y-auto  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
+                    ? "mt-2 h-[200px] overflow-y-auto  absolute border border-black z-10 bg-white rounded-lg shadow-xl w-[500px] "
                     : "hidden"
             }
         >

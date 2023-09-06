@@ -41,7 +41,7 @@ const MonthSelectBox = ({
             ref={divRef}
             className={
                 openMonth || openMonth1
-                    ? "mt-2  absolute border border-black z-10 bg-white rounded-lg shadow-xl "
+                    ? "mt-2  absolute border border-black z-10 bg-white rounded-lg shadow-xl w-[500px] "
                     : "hidden"
             }
         >
