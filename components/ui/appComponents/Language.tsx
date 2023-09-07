@@ -4,10 +4,19 @@ import React, { useEffect, useRef, useState } from "react";
 import downArrow from "@/assets/downarrow.svg";
 import cross from "@/assets/crossSmall.svg";
 import { languageLevel } from "@/lib/utils";
+import { useFormContext } from "react-hook-form";
+import { LanguageInput } from "@/interface";
+import { useLanguageStore } from "@/store/languageDetailStore";
 
 const Language = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<LanguageInput>();
+    const { select, setSelect } = useLanguageStore();
     const [dropdownWidth, setDropdownWidth] = useState(0);
-    const [select, setSelect] = useState("");
     const [dropDown, setDropDown] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,6 +37,9 @@ const Language = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter Language"
+                        {...register("language", {
+                            required: true,
+                        })}
                     />
                 </div>
                 <div className="col-span-4">
@@ -41,6 +53,9 @@ const Language = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="eg. C2,4+,TOEFL,IELTS,..."
+                        {...register("subLanguage", {
+                            required: false,
+                        })}
                     />
                 </div>
                 <div className="col-span-4" ref={dropdownRef}>
@@ -87,17 +102,18 @@ const Language = () => {
                             </div>
                         </div>
                     )}
-
-                    <div
-                        className={
-                            dropDown
-                                ? "mt-1 absolute border border-black z-10 bg-white rounded-lg shadow-xl"
-                                : "hidden"
-                        }
-                        style={{ width: dropdownWidth }}
-                    >
-                        <div className="grid grid-cols-4 gap-1">
-                            {languageLevel.map((level, index) => (
+                </div>
+                <div
+                    className={
+                        dropDown
+                            ? "mt-1 block border border-black z-10 bg-white rounded-lg shadow-xl"
+                            : "none"
+                    }
+                    style={{ width: dropdownWidth }}
+                >
+                    <div className="grid grid-cols-4 gap-1">
+                        {dropDown &&
+                            languageLevel.map((level, index) => (
                                 <div
                                     key={index}
                                     className="col-span-4 cursor-pointer px-2 py-1 hover:bg-blue-200 rounded-lg font-bold"
@@ -109,7 +125,6 @@ const Language = () => {
                                     {level}
                                 </div>
                             ))}
-                        </div>
                     </div>
                 </div>
             </div>
