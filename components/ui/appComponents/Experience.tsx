@@ -8,28 +8,62 @@ import Year from "@/components/Year";
 import MonthSelectBox from "@/components/MonthSelectBox";
 import YearSelectBox from "@/components/YearSelectBox";
 import Month1 from "@/components/Month1";
+import { useFormContext } from "react-hook-form";
+import { ExperienceInput } from "@/interface";
+import useFormPersist from "react-hook-form-persist";
+import {
+    useExperienceMonthStore,
+    useExperienceStateStore,
+    useExperienceYearStore,
+} from "@/store/experienceDetailStore";
 
 const Experience = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<ExperienceInput>();
+    useFormPersist("ExperienceDetail", {
+        watch,
+        setValue,
+        storage: window.localStorage, // default window.sessionStorage
+    });
+    const {
+        setSelectMonth,
+        selectMonth,
+        setSelectMonth1,
+        selectMonth1,
+    } = useExperienceMonthStore();
+    const { setSelectYear, selectYear, setSelectYear1, selectYear1 } =
+        useExperienceYearStore();
+
+    const {
+        setNotShow,
+        setNotShow1,
+        setOnlyYear,
+        setOnlyYear1,
+        notShow,
+        notShow1,
+        onlyYear,
+        onlyYear1,
+        present,
+        setPresent,
+        schoolLink,
+        setSchoolLink,
+    } = useExperienceStateStore();
     const [open, setOpen] = useState(false);
     const [openMonth, setOpenMonth] = useState(false);
-    const [selectMonth, setSelectMonth] = useState("");
-    const [selectMonth1, setSelectMonth1] = useState("");
     const [openYear, setOpenYear] = useState(false);
-    const [selectYear, setSelectYear] = useState(0);
-    const [selectYear1, setSelectYear1] = useState(0);
     const [clickMonth, setClickMonth] = useState(false);
     const [clickYear, setClickYear] = useState(false);
     const [openMonth1, setOpenMonth1] = useState(false);
     const [openYear1, setOpenYear1] = useState(false);
     const [clickMonth1, setClickMonth1] = useState(false);
     const [clickYear1, setClickYear1] = useState(false);
-    const [notShow, setNotShow] = useState(false);
-    const [onlyYear, setOnlyYear] = useState(false);
-    const [notShow1, setNotShow1] = useState(false);
-    const [onlyYear1, setOnlyYear1] = useState(false);
-    const [present, setPresent] = useState(false);
     const [presentValue, setpresentVlue] = useState("present");
     const [description, setDescription] = useState("");
+    const [link, setLink] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -111,13 +145,18 @@ const Experience = () => {
                             type="text"
                             className="p-2.5 bg-gray-100  rounded-lg focus:outline-none w-3/4"
                             placeholder="Enter employer"
+                            {...register("employer", {
+                                required: false,
+                            })}
                         />
                         <div className="w-1/4">
-                            <div className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg">
+                            <div
+                                className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg relative"
+                                ref={divRef}
+                            >
                                 <div
                                     className="flex flex-row gap-3 item-center justify-center"
                                     onClick={() => setOpen(true)}
-                                    ref={divRef}
                                 >
                                     <Image
                                         src={linkLogo}
@@ -130,7 +169,7 @@ const Experience = () => {
                                 <div
                                     className={
                                         open
-                                            ? " block mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
+                                            ? " block mt-5 right-0 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
                                             : "hidden"
                                     }
                                 >
@@ -141,6 +180,11 @@ const Experience = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            onChange={(event: any) =>
+                                                setLink(
+                                                    event.target.value
+                                                )
+                                            }
                                         />
                                         <div className="mt-5 flex justify-between gap-2">
                                             <button
@@ -151,7 +195,15 @@ const Experience = () => {
                                             >
                                                 Cancel
                                             </button>
-                                            <button className="bg-lime-500 rounded-lg px-4 py-2 w-1/2">
+                                            <button
+                                                className="bg-lime-500 rounded-lg px-4 py-2 w-1/2"
+                                                onClick={() => {
+                                                    setOpen(false);
+                                                    setSchoolLink(
+                                                        link
+                                                    );
+                                                }}
+                                            >
                                                 Save
                                             </button>
                                         </div>
@@ -172,6 +224,9 @@ const Experience = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter Job Title"
+                        {...register("jobTitle", {
+                            required: false,
+                        })}
                     />
                 </div>
                 <div className="col-span-2">
@@ -185,6 +240,9 @@ const Experience = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter City"
+                        {...register("experienceCity", {
+                            required: false,
+                        })}
                     />
                 </div>
                 <div className="col-span-2">
@@ -198,6 +256,9 @@ const Experience = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter Country"
+                        {...register("experienceCountry", {
+                            required: false,
+                        })}
                     />
                 </div>
                 <div className="col-span-2">
@@ -208,110 +269,130 @@ const Experience = () => {
                                 optional
                             </span>
                         </label>
-                        {selectMonth === "" ? (
-                            <Month
-                                clickMonth={clickMonth}
-                                notShow={notShow}
-                                onlyYear={onlyYear}
-                                openMonthHandler={openMonthHandler}
-                                selectMonth={selectMonth}
-                            />
-                        ) : (
-                            <div
-                                className={
-                                    clickMonth
-                                        ? `border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-3 ${
-                                              notShow ? "hidden" : ""
-                                          } ${
-                                              onlyYear ? "hidden" : ""
-                                          } `
-                                        : `border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-3 ${
-                                              notShow ? "hidden" : ""
-                                          } ${
-                                              onlyYear ? "hidden" : ""
-                                          }`
-                                }
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div
-                                        onClick={openMonthHandler}
-                                        className="w-full"
-                                    >
-                                        {selectMonth}
+                        <div className="col-span-3 relative">
+                            {selectMonth === "" ? (
+                                <Month
+                                    clickMonth={clickMonth}
+                                    notShow={notShow}
+                                    onlyYear={onlyYear}
+                                    openMonthHandler={
+                                        openMonthHandler
+                                    }
+                                    selectMonth={selectMonth}
+                                />
+                            ) : (
+                                <div
+                                    className={
+                                        clickMonth
+                                            ? `border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-3 ${
+                                                  notShow
+                                                      ? "hidden"
+                                                      : ""
+                                              } ${
+                                                  onlyYear
+                                                      ? "hidden"
+                                                      : ""
+                                              } `
+                                            : `border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-3 ${
+                                                  notShow
+                                                      ? "hidden"
+                                                      : ""
+                                              } ${
+                                                  onlyYear
+                                                      ? "hidden"
+                                                      : ""
+                                              }`
+                                    }
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div
+                                            onClick={openMonthHandler}
+                                            className="w-full"
+                                        >
+                                            {selectMonth}
+                                        </div>
+                                        <Image
+                                            src={cross}
+                                            alt="cross"
+                                            width={25}
+                                            height={25}
+                                            onClick={() =>
+                                                setSelectMonth("")
+                                            }
+                                        />
                                     </div>
-                                    <Image
-                                        src={cross}
-                                        alt="cross"
-                                        width={25}
-                                        height={25}
-                                        onClick={() =>
-                                            setSelectMonth("")
-                                        }
-                                    />
                                 </div>
-                            </div>
-                        )}
-                        {selectYear === 0 ? (
-                            <Year
-                                clickYear={clickYear}
-                                notShow={notShow}
-                                openYearHandler={openYearHandler}
-                                selectYear={selectYear}
-                            />
-                        ) : (
-                            <div
-                                className={
-                                    clickYear
-                                        ? `border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-2 ${
-                                              notShow ? "hidden" : ""
-                                          } `
-                                        : `border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-2 ${
-                                              notShow ? "hidden" : ""
-                                          } `
+                            )}
+                            <MonthSelectBox
+                                openMonth={openMonth}
+                                openMonth1={openMonth1}
+                                selectMonthHandler={
+                                    selectMonthHandler
                                 }
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div
-                                        onClick={openYearHandler}
-                                        className="w-full"
-                                    >
-                                        {selectYear}
+                                setOpenMonth={setOpenMonth}
+                                setOpenYear={setOpenYear}
+                                setClickYear={setClickYear}
+                                setOpenYear1={setOpenYear1}
+                                setClickYear1={setClickYear1}
+                                setOpenMonth1={setOpenMonth1}
+                                setClickMonth={setClickMonth}
+                                setClickMonth1={setClickMonth1}
+                            />
+                            <YearSelectBox
+                                openYear={openYear}
+                                openYear1={openYear1}
+                                selectYearHandler={selectYearHandler}
+                                setOpenYear={setOpenYear}
+                                setOpenYear1={setOpenYear1}
+                                setClickYear={setClickYear}
+                                setClickYear1={setClickYear1}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            {selectYear === 0 ? (
+                                <Year
+                                    clickYear={clickYear}
+                                    notShow={notShow}
+                                    openYearHandler={openYearHandler}
+                                    selectYear={selectYear}
+                                />
+                            ) : (
+                                <div
+                                    className={
+                                        clickYear
+                                            ? `border-blue-500 border-2 px-2  py-2.5 cursor-pointer rounded-lg col-span-2 ${
+                                                  notShow
+                                                      ? "hidden"
+                                                      : ""
+                                              } `
+                                            : `border-gray-300 border px-2  py-2.5 cursor-pointer rounded-lg col-span-2 ${
+                                                  notShow
+                                                      ? "hidden"
+                                                      : ""
+                                              } `
+                                    }
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div
+                                            onClick={openYearHandler}
+                                            className="w-full"
+                                        >
+                                            {selectYear}
+                                        </div>
+                                        <Image
+                                            src={cross}
+                                            alt="cross"
+                                            width={25}
+                                            height={25}
+                                            onClick={() =>
+                                                setSelectYear(0)
+                                            }
+                                        />
                                     </div>
-                                    <Image
-                                        src={cross}
-                                        alt="cross"
-                                        width={25}
-                                        height={25}
-                                        onClick={() =>
-                                            setSelectYear(0)
-                                        }
-                                    />
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                    <MonthSelectBox
-                        openMonth={openMonth}
-                        openMonth1={openMonth1}
-                        selectMonthHandler={selectMonthHandler}
-                        setOpenMonth={setOpenMonth}
-                        setOpenYear={setOpenYear}
-                        setClickYear={setClickYear}
-                        setOpenYear1={setOpenYear1}
-                        setClickYear1={setClickYear1}
-                        setOpenMonth1={setOpenMonth1}
-                        setClickMonth={setClickMonth}
-                        setClickMonth1={setClickMonth1}
-                    />
-                    <YearSelectBox
-                        openYear={openYear}
-                        openYear1={openYear1}
-                        selectYearHandler={selectYearHandler}
-                        setOpenYear={setOpenYear}
-                        setOpenYear1={setOpenYear1}
-                        setClickYear={setClickYear}
-                        setClickYear1={setClickYear1}
-                    />
                 </div>
                 <div className="col-span-2">
                     <div className="grid grid-cols-5 gap-2">
@@ -565,6 +646,9 @@ const Experience = () => {
                             rows={4}
                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                             placeholder="Describe your role & achievements"
+                            {...register("experienceDescription", {
+                                required: false,
+                            })}
                         >
                             {description}
                         </textarea>

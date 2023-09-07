@@ -2,8 +2,16 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import linkLogo from "@/assets/link.svg";
+import { useFormContext } from "react-hook-form";
+import { CertificateInput } from "@/interface";
 
 const Certificate = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<CertificateInput>();
     const [open, setOpen] = useState(false);
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
@@ -37,13 +45,18 @@ const Certificate = () => {
                             type="text"
                             className="p-2.5 bg-gray-100  rounded-lg focus:outline-none w-3/4"
                             placeholder="Enter certificate"
+                            {...register("certificate", {
+                                required: true,
+                            })}
                         />
                         <div className="w-1/4">
-                            <div className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg">
+                            <div
+                                className="border-gray-300 relative border  py-2.5 cursor-pointer rounded-lg"
+                                ref={divRef}
+                            >
                                 <div
                                     className="flex flex-row gap-3 item-center justify-center"
                                     onClick={() => setOpen(true)}
-                                    ref={divRef}
                                 >
                                     <Image
                                         src={linkLogo}
@@ -56,7 +69,7 @@ const Certificate = () => {
                                 <div
                                     className={
                                         open
-                                            ? " block mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
+                                            ? " block right-0 mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
                                             : "hidden"
                                     }
                                 >

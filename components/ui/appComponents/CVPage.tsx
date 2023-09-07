@@ -1,37 +1,17 @@
 "use client";
+import CertificateTemplateInfo from "@/components/CertificateTemplateInfo";
+import EducationTemplateInfo from "@/components/EducationTemplateInfo";
+import ExperienceTemplateInfo from "@/components/ExperienceTemplateInfo";
+import LanguageTemplateInfo from "@/components/LanguageTemplateInfo";
+import SkillsTemplateInfo from "@/components/SkillsTemplateInfo";
 import useFormValues from "@/lib/useFormValues";
 import { useProfileImage } from "@/store/personalDetailStore";
 import Image from "next/image";
-import linkLogo from "@/assets/link.svg";
-import {
-    useEducationMonthStore,
-    useEducationStateStore,
-    useEducationYearStore,
-} from "@/store/educationDeatilStore";
+
 const CVPage = () => {
-    const {
-        fullname,
-        jobtitle,
-        email,
-        phone,
-        address,
-        degree,
-        school,
-        city,
-        country,
-        description,
-    } = useFormValues();
+    const { fullname, jobtitle, email, phone, address } =
+        useFormValues();
     const { profileImage } = useProfileImage();
-    const {
-        schoolLink,
-        notShow,
-        notShow1,
-        onlyYear,
-        onlyYear1,
-        present,
-    } = useEducationStateStore();
-    const { selectMonth, selectMonth1 } = useEducationMonthStore();
-    const { selectYear, selectYear1 } = useEducationYearStore();
 
     return (
         <div className="w-full h-full bg-red-50 flex">
@@ -50,67 +30,22 @@ const CVPage = () => {
                 <h3 className="text-md">{email}</h3>
                 <h3 className="text-md">{phone}</h3>
                 <h3 className="text-md">{address}</h3>
+                <div className="pt-5 w-full">
+                    <ExperienceTemplateInfo />
+                </div>
+                <div className="pt-5 w-full">
+                    <LanguageTemplateInfo />
+                </div>
             </div>
-            <div className="h-full">
-                <div className="px-3 pt-3">
-                    <h1 className="font-extrabold text-lg">
-                        Education
-                    </h1>
-                    <div className="pt-3 flex gap-1 items-center">
-                        <p className="text-xs font-bold">
-                            {school
-                                ? `${degree},${school}`
-                                : `${degree}`}
-                        </p>
-                        {schoolLink !== "" && (
-                            <a href={schoolLink} target="_blank">
-                                <Image
-                                    src={linkLogo}
-                                    alt="link"
-                                    width={10}
-                                    height={10}
-                                />
-                            </a>
-                        )}
-                    </div>
-                    <p className="text-xs pt-1">{`${
-                        !notShow && !onlyYear ? selectMonth : ""
-                    } ${
-                        selectYear !== 0 && !notShow ? selectYear : ""
-                    }${
-                        (selectMonth || selectYear !== 0) &&
-                        (selectMonth1 || selectYear1 !== 0) &&
-                        !notShow &&
-                        !notShow1
-                            ? "-"
-                            : ""
-                    }
-                    ${
-                        present
-                            ? "present"
-                            : `${
-                                  !notShow1 && !onlyYear1
-                                      ? selectMonth1
-                                      : ""
-                              } ${
-                                  selectYear1 !== 0 && !notShow1
-                                      ? selectYear1
-                                      : ""
-                              }`
-                    }
-                    ${
-                        (present ||
-                            selectMonth ||
-                            selectMonth1 ||
-                            selectYear !== 0 ||
-                            selectYear1 !== 0) &&
-                        (city || country)
-                            ? " | "
-                            : ""
-                    }${city}${
-                        country && city ? ", " : ""
-                    }${country}`}</p>
-                    <p className="text-xs pt-1">{description}</p>
+            <div className="h-full w-[55%]">
+                <div className="px-4 pt-5">
+                    <EducationTemplateInfo />
+                </div>
+                <div className="px-4 pt-5">
+                    <SkillsTemplateInfo />
+                </div>
+                <div className="px-4 pt-5">
+                    <CertificateTemplateInfo />
                 </div>
             </div>
         </div>

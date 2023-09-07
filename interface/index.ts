@@ -42,26 +42,51 @@ export interface SelectYearProps {
 export interface EducationInput {
     degree: string;
     school: string;
-    schoolLink: string;
     city: string;
     country: string;
     description: string;
 }
-export interface EducationMonthStoreState {
+export interface ExperienceInput {
+    employer: string;
+    jobTitle: string;
+    experienceCity: string;
+    experienceCountry: string;
+    experienceDescription: string;
+}
+export interface SkillsInput {
+    skill: string;
+    subSkill: string;
+}
+
+export interface SkillState {
+    select: string;
+    setSelect: (level: string) => void;
+}
+
+export interface LanguageInput {
+    language: string;
+    subLanguage: string;
+}
+
+export interface CertificateInput {
+    certificate: string;
+    certificateInfo: string;
+}
+export interface MonthStoreState {
     selectMonth: string;
     selectMonth1: string;
     setSelectMonth: (month: string) => void;
     setSelectMonth1: (month: string) => void;
 }
 
-export interface EducationYearStoreState {
+export interface YearStoreState {
     selectYear: number;
     selectYear1: number;
     setSelectYear: (year: number) => void;
     setSelectYear1: (year: number) => void;
 }
 
-export interface EducationStoreState {
+export interface StoreState {
     notShow: boolean;
     notShow1: boolean;
     onlyYear: boolean;
