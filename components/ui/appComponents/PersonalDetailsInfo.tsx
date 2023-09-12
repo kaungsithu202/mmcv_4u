@@ -29,6 +29,7 @@ const PersonalDetailsInfo = () => {
     setValue,
     storage: window.localStorage, // default window.sessionStorage
   });
+  const [profile, setProfile] = useState<string>("");
   const { setProfileImage } = useProfileImage();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
@@ -38,9 +39,13 @@ const PersonalDetailsInfo = () => {
     imageRef?.current?.click();
   };
 
+  console.log(profile);
+
   const handleFileInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const selectedFile = e.target.files[0];
+      setProfile(URL.createObjectURL(selectedFile));
+
       const base64 = await fileToBase64(selectedFile);
       setProfileImage(base64);
     }
@@ -48,7 +53,6 @@ const PersonalDetailsInfo = () => {
 
   return (
     <div className="bg-white rounded-xl  px-6 py-4 flex flex-col gap-3 relative cursor-pointer ">
-      <h1 className="text-lg font-bold">Edit personal details</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-4 grid-rows-4 gap-2">
           <div className="col-span-2 ">
@@ -66,10 +70,27 @@ const PersonalDetailsInfo = () => {
               className="bg-gray-100 p-6 rounded-full absolute translate-x-20 translate-y-4"
               onClick={handleClickRef}
             >
-              <Image src={cameraIcon} alt="cameraIcon" width={70} height={70} />
+              {profile ? (
+                <Image
+                  src={profile}
+                  alt="profile"
+                  width={100}
+                  height={100}
+                  className="w-full h-full rounded-full"
+                />
+              ) : (
+                <Image
+                  src={cameraIcon}
+                  alt="cameraIcon"
+                  width={70}
+                  height={70}
+                />
+              )}
+
               <input
                 ref={imageRef}
                 type="file"
+                accept="image/*"
                 className="hidden"
                 onChange={handleFileInputChange}
               />
