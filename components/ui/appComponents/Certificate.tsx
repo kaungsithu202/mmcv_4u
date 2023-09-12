@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import linkLogo from "@/assets/link.svg";
 import { useFormContext } from "react-hook-form";
 import { CertificateInput } from "@/interface";
+import { useCertificateStore } from "@/store/certificateDetailStore";
 
 const Certificate = () => {
     const {
@@ -12,7 +13,10 @@ const Certificate = () => {
         watch,
         setValue,
     } = useFormContext<CertificateInput>();
+    const { certificateLink, setCertificateLink } =
+        useCertificateStore();
     const [open, setOpen] = useState(false);
+    const [link, setLink] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -69,7 +73,7 @@ const Certificate = () => {
                                 <div
                                     className={
                                         open
-                                            ? " block right-0 mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
+                                            ? " block right-0 top-[-40px] mt-5 w-[250px] h-[145px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
                                             : "hidden"
                                     }
                                 >
@@ -80,6 +84,14 @@ const Certificate = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            defaultValue={
+                                                certificateLink
+                                            }
+                                            onChange={(e) =>
+                                                setLink(
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                         <div className="mt-5 flex justify-between gap-2">
                                             <button
@@ -90,7 +102,15 @@ const Certificate = () => {
                                             >
                                                 Cancel
                                             </button>
-                                            <button className="bg-lime-500 rounded-lg px-4 py-2 w-1/2">
+                                            <button
+                                                className="bg-lime-500 rounded-lg px-4 py-2 w-1/2"
+                                                onClick={() => {
+                                                    setOpen(false);
+                                                    setCertificateLink(
+                                                        link
+                                                    );
+                                                }}
+                                            >
                                                 Save
                                             </button>
                                         </div>
@@ -111,6 +131,9 @@ const Certificate = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="eg. Level 1 and Level 2"
+                        {...register("certificateInfo", {
+                            required: false,
+                        })}
                     />
                 </div>
             </div>
