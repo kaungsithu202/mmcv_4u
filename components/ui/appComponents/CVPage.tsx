@@ -2,7 +2,10 @@
 import CertificateTemplateInfo from "@/components/CertificateTemplateInfo";
 import EducationTemplateInfo from "@/components/EducationTemplateInfo";
 import ExperienceTemplateInfo from "@/components/ExperienceTemplateInfo";
+import InterestTemplateInfo from "@/components/InterestTemplateInfo";
 import LanguageTemplateInfo from "@/components/LanguageTemplateInfo";
+import ProjectTemplateInfo from "@/components/ProjectTemplateInfo";
+import ReferenceTemplateInfo from "@/components/ReferenceTemplateInfo";
 import SkillsTemplateInfo from "@/components/SkillsTemplateInfo";
 import useFormValues from "@/lib/useFormValues";
 import { useProfileImage } from "@/store/personalDetailStore";
@@ -36,6 +39,12 @@ const CVPage = () => {
                 <div className="pt-5 w-full">
                     <LanguageTemplateInfo />
                 </div>
+                <div className="pt-5 w-full">
+                    <InterestTemplateInfo />
+                </div>
+                <div className="pt-5 w-full">
+                    <ProjectTemplateInfo />
+                </div>
             </div>
             <div className="h-full w-[55%]">
                 <div className="px-4 pt-5">
@@ -45,7 +54,7 @@ const CVPage = () => {
                     <SkillsTemplateInfo />
                 </div>
                 <div className="px-4 pt-5">
-                    <CertificateTemplateInfo />
+                    <ReferenceTemplateInfo />
                 </div>
             </div>
         </div>

@@ -180,6 +180,7 @@ const Experience = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            defaultValue={schoolLink}
                                             onChange={(event: any) =>
                                                 setLink(
                                                     event.target.value

@@ -2,9 +2,20 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import linkLogo from "@/assets/link.svg";
+import { useFormContext } from "react-hook-form";
+import { InterestInput } from "@/interface";
+import { useInterestStore } from "@/store/interestDetailStore";
 
 const Interest = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<InterestInput>();
+    const { setInterestLink, interestLink } = useInterestStore();
     const [open, setOpen] = useState(false);
+    const [link, setLink] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -37,13 +48,18 @@ const Interest = () => {
                             type="text"
                             className="p-2.5 bg-gray-100  rounded-lg focus:outline-none w-3/4"
                             placeholder="Enter interest/Hobby"
+                            {...register("interest", {
+                                required: true,
+                            })}
                         />
                         <div className="w-1/4">
-                            <div className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg">
+                            <div
+                                className="border-gray-300 relative border  py-2.5 cursor-pointer rounded-lg"
+                                ref={divRef}
+                            >
                                 <div
                                     className="flex flex-row gap-3 item-center justify-center"
                                     onClick={() => setOpen(true)}
-                                    ref={divRef}
                                 >
                                     <Image
                                         src={linkLogo}
@@ -56,7 +72,7 @@ const Interest = () => {
                                 <div
                                     className={
                                         open
-                                            ? " block mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
+                                            ? " block mt-5 right-0 top-[-40px] w-[250px] h-[145px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
                                             : "hidden"
                                     }
                                 >
@@ -67,6 +83,14 @@ const Interest = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            defaultValue={
+                                                interestLink
+                                            }
+                                            onChange={(e) =>
+                                                setLink(
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                         <div className="mt-5 flex justify-between gap-2">
                                             <button
@@ -77,7 +101,15 @@ const Interest = () => {
                                             >
                                                 Cancel
                                             </button>
-                                            <button className="bg-lime-500 rounded-lg px-4 py-2 w-1/2">
+                                            <button
+                                                className="bg-lime-500 rounded-lg px-4 py-2 w-1/2"
+                                                onClick={() => {
+                                                    setOpen(false);
+                                                    setInterestLink(
+                                                        link
+                                                    );
+                                                }}
+                                            >
                                                 Save
                                             </button>
                                         </div>
@@ -98,6 +130,9 @@ const Interest = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter additional information"
+                        {...register("interestInfo", {
+                            required: false,
+                        })}
                     />
                 </div>
             </div>
