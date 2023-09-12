@@ -197,6 +197,7 @@ const EducatioForm = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            defaultValue={schoolLink}
                                             onChange={(e) =>
                                                 setLink(
                                                     e.target.value

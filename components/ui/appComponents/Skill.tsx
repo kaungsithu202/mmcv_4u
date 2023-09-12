@@ -4,10 +4,19 @@ import React, { useEffect, useRef, useState } from "react";
 import downArrow from "@/assets/downarrow.svg";
 import { skillLevel } from "@/lib/utils";
 import cross from "@/assets/crossSmall.svg";
+import { useFormContext } from "react-hook-form";
+import { SkillsInput } from "@/interface";
+import { useSkillStore } from "@/store/SkillDetailStore";
 
 const Skill = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<SkillsInput>();
+    const { select, setSelect } = useSkillStore();
     const [dropdownWidth, setDropdownWidth] = useState(0);
-    const [select, setSelect] = useState("");
     const [dropDown, setDropDown] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,6 +37,9 @@ const Skill = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter Skill"
+                        {...register("skill", {
+                            required: true,
+                        })}
                     />
                 </div>
                 <div className="col-span-4">
@@ -41,6 +53,9 @@ const Skill = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="Enter Information or sub-skills"
+                        {...register("subSkill", {
+                            required: false,
+                        })}
                     />
                 </div>
                 <div className="col-span-4" ref={dropdownRef}>
@@ -49,7 +64,7 @@ const Skill = () => {
                     </label>
                     {select === "" ? (
                         <div
-                            className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none mt-1 cursor-pointer"
+                            className="p-2.5  bg-gray-100 w-full rounded-lg focus:outline-none mt-1 cursor-pointer"
                             onClick={() => {
                                 setDropDown((prev) => !prev);
                             }}
@@ -87,28 +102,38 @@ const Skill = () => {
                             </div>
                         </div>
                     )}
-
                     <div
                         className={
                             dropDown
-                                ? "mt-1 absolute border border-black z-10 bg-white rounded-lg shadow-xl"
-                                : "hidden"
+                                ? "mt-1 block  border border-black z-10 bg-white rounded-lg shadow-xl"
+                                : "none"
                         }
                         style={{ width: dropdownWidth }}
                     >
-                        <div className="grid grid-cols-4 gap-1">
-                            {skillLevel.map((level, index) => (
-                                <div
-                                    key={index}
-                                    className="col-span-4 cursor-pointer px-2 py-1 hover:bg-blue-200 rounded-lg font-bold"
-                                    onClick={() => {
-                                        setDropDown(false);
-                                        setSelect(level);
-                                    }}
-                                >
-                                    {level}
-                                </div>
-                            ))}
+                        <div
+                            className={
+                                dropDown
+                                    ? "grid grid-cols-4 gap-1 "
+                                    : "none"
+                            }
+                        >
+                            {dropDown &&
+                                skillLevel.map((level, index) => (
+                                    <div
+                                        key={index}
+                                        className={
+                                            dropDown
+                                                ? "col-span-4 cursor-pointer px-2 py-1 hover:bg-blue-200 rounded-lg font-bold block"
+                                                : "none"
+                                        }
+                                        onClick={() => {
+                                            setDropDown(false);
+                                            setSelect(level);
+                                        }}
+                                    >
+                                        {level}
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>

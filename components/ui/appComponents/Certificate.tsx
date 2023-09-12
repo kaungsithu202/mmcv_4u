@@ -2,9 +2,21 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import linkLogo from "@/assets/link.svg";
+import { useFormContext } from "react-hook-form";
+import { CertificateInput } from "@/interface";
+import { useCertificateStore } from "@/store/certificateDetailStore";
 
 const Certificate = () => {
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext<CertificateInput>();
+    const { certificateLink, setCertificateLink } =
+        useCertificateStore();
     const [open, setOpen] = useState(false);
+    const [link, setLink] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -37,13 +49,18 @@ const Certificate = () => {
                             type="text"
                             className="p-2.5 bg-gray-100  rounded-lg focus:outline-none w-3/4"
                             placeholder="Enter certificate"
+                            {...register("certificate", {
+                                required: true,
+                            })}
                         />
                         <div className="w-1/4">
-                            <div className="border-gray-300 border  py-2.5 cursor-pointer rounded-lg">
+                            <div
+                                className="border-gray-300 relative border  py-2.5 cursor-pointer rounded-lg"
+                                ref={divRef}
+                            >
                                 <div
                                     className="flex flex-row gap-3 item-center justify-center"
                                     onClick={() => setOpen(true)}
-                                    ref={divRef}
                                 >
                                     <Image
                                         src={linkLogo}
@@ -56,7 +73,7 @@ const Certificate = () => {
                                 <div
                                     className={
                                         open
-                                            ? " block mt-5 w-[250px] h-[150px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
+                                            ? " block right-0 top-[-40px] mt-5 w-[250px] h-[145px] absolute border border-black z-10 bg-white rounded-lg shadow-xl"
                                             : "hidden"
                                     }
                                 >
@@ -67,6 +84,14 @@ const Certificate = () => {
                                         <input
                                             type="text"
                                             className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
+                                            defaultValue={
+                                                certificateLink
+                                            }
+                                            onChange={(e) =>
+                                                setLink(
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                         <div className="mt-5 flex justify-between gap-2">
                                             <button
@@ -77,7 +102,15 @@ const Certificate = () => {
                                             >
                                                 Cancel
                                             </button>
-                                            <button className="bg-lime-500 rounded-lg px-4 py-2 w-1/2">
+                                            <button
+                                                className="bg-lime-500 rounded-lg px-4 py-2 w-1/2"
+                                                onClick={() => {
+                                                    setOpen(false);
+                                                    setCertificateLink(
+                                                        link
+                                                    );
+                                                }}
+                                            >
                                                 Save
                                             </button>
                                         </div>
@@ -98,6 +131,9 @@ const Certificate = () => {
                         type="text"
                         className="p-2.5 bg-gray-100 w-full rounded-lg focus:outline-none"
                         placeholder="eg. Level 1 and Level 2"
+                        {...register("certificateInfo", {
+                            required: false,
+                        })}
                     />
                 </div>
             </div>

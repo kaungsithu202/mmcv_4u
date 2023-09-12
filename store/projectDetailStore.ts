@@ -6,7 +6,7 @@ import {
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useEducationMonthStore = create<MonthStoreState>()(
+export const useProjectMonthStore = create<MonthStoreState>()(
     persist(
         (set) => ({
             selectMonth: "",
@@ -16,11 +16,11 @@ export const useEducationMonthStore = create<MonthStoreState>()(
             setSelectMonth1: (payload: string) =>
                 set(() => ({ selectMonth1: payload })),
         }),
-        { name: "selectMonth" }
+        { name: "projectSelectMonth" }
     )
 );
 
-export const useEducationYearStore = create<YearStoreState>()(
+export const useProjectYearStore = create<YearStoreState>()(
     persist(
         (set) => ({
             selectYear: 0,
@@ -30,11 +30,11 @@ export const useEducationYearStore = create<YearStoreState>()(
             setSelectYear1: (payload: number) =>
                 set(() => ({ selectYear1: payload })),
         }),
-        { name: "selectYear" }
+        { name: "projectSelectYear" }
     )
 );
 
-export const useEducationStateStore = create<StoreState>()(
+export const useProjectStateStore = create<StoreState>()(
     persist(
         (set) => ({
             notShow: false,
@@ -57,6 +57,6 @@ export const useEducationStateStore = create<StoreState>()(
                 set(() => ({ schoolLink: payload }));
             },
         }),
-        { name: "education" }
+        { name: "project" }
     )
 );

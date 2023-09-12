@@ -16,10 +16,12 @@ import PersonalDetailsInfo from "@/components/ui/appComponents/PersonalDetailsIn
 import Project from "@/components/ui/appComponents/Project";
 import Reference from "@/components/ui/appComponents/Reference";
 import Skill from "@/components/ui/appComponents/Skill";
-import { FormProvider, useForm } from "react-hook-form";
+import { useAccordionState } from "@/store/educationDeatilStore";
+import { FormProvider, set, useForm } from "react-hook-form";
 
 export default function Home() {
     const methods = useForm();
+
     return (
         <FormProvider {...methods}>
             <div className="min-h-screen container mx-auto">

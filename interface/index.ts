@@ -42,26 +42,83 @@ export interface SelectYearProps {
 export interface EducationInput {
     degree: string;
     school: string;
-    schoolLink: string;
     city: string;
     country: string;
     description: string;
 }
-export interface EducationMonthStoreState {
+export interface ExperienceInput {
+    employer: string;
+    jobTitle: string;
+    experienceCity: string;
+    experienceCountry: string;
+    experienceDescription: string;
+}
+export interface SkillsInput {
+    skill: string;
+    subSkill: string;
+}
+
+export interface SkillState {
+    select: string;
+    setSelect: (level: string) => void;
+}
+
+export interface LanguageInput {
+    language: string;
+    subLanguage: string;
+}
+
+export interface CertificateInput {
+    certificate: string;
+    certificateInfo: string;
+}
+
+export interface CertificateState {
+    certificateLink: string;
+    setCertificateLink: (link: string) => void;
+}
+
+export interface InterestInput {
+    interest: string;
+    interestInfo: string;
+}
+export interface ProjectInput {
+    project: string;
+    subProject: string;
+    projectDescription: string;
+}
+
+export interface ReferenceInput {
+    refName: string;
+    refJobTitle: string;
+    refOrganization: string;
+    refEmail: string;
+    refPhone: string;
+}
+
+export interface ReferenceState {
+    referenceLink: string;
+    setReferenceLink: (link: string) => void;
+}
+export interface InterestState {
+    interestLink: string;
+    setInterestLink: (link: string) => void;
+}
+export interface MonthStoreState {
     selectMonth: string;
     selectMonth1: string;
     setSelectMonth: (month: string) => void;
     setSelectMonth1: (month: string) => void;
 }
 
-export interface EducationYearStoreState {
+export interface YearStoreState {
     selectYear: number;
     selectYear1: number;
     setSelectYear: (year: number) => void;
     setSelectYear1: (year: number) => void;
 }
 
-export interface EducationStoreState {
+export interface StoreState {
     notShow: boolean;
     notShow1: boolean;
     onlyYear: boolean;
